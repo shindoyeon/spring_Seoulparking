@@ -6,13 +6,14 @@ import lombok.Data;
 @Data
 @Document(collection="parking")  
 public class ParkingInfoDto {
-
+	
 	private String pname;
-	//private String addr1;  
+	private String addr1;  
 	private String addr2;
 	private String total;
-	//private String avail;
-	//private List<String> rate;
-	//private List<String> time;
+	private String avail;
+	private Object rate;
+	private Object time;
+	private Object location;
 }
 
