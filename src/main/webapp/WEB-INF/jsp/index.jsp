@@ -79,7 +79,9 @@
 		});
 		// 지도에 클릭 이벤트를 등록합니다
 		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+		 var markers=[];
 		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+			removeMarker();
 			// 클릭한 위도, 경도 정보를 가져옵니다 
 			var latlng = {
 				    x: mouseEvent.latLng.getLat(),
@@ -91,18 +93,45 @@
 
 			var resultDiv = document.getElementById('click');
 			resultDiv.innerHTML = message;
-
+			
 			   $.ajax({
 			        url : "radius",
 			        type : "GET",
 			        //dataType: "json",
 			        data: latlng,
 			        success : function(data){
-				        for(var i=0; i<data.length; i++)
-					        console.log(data[i]);
+			        	
+				        	// 마커 이미지의 이미지 주소입니다
+				        	var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+				        	for (var i = 0; i < data.length; i++) {
+				        		  var coords =new kakao.maps.LatLng(data[i].location[1],data[i].location[0]);
+				        		 
+				        		  console.log(data[i].location[1],data[i].location[0])
+				        		  // 마커 이미지의 이미지 크기 입니다
+				        		    var imageSize = new kakao.maps.Size(24, 35); 
+				        		    
+				        		    // 마커 이미지를 생성합니다    
+				        		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+				        		   
+				        		    // 마커를 생성합니다
+				        		    var marker = new kakao.maps.Marker({
+				        		        map: map, // 마커를 표시할 지도
+				        		        position: coords, // 마커를 표시할 위치
+				        		        image : markerImage // 마커 이미지 
+				        		    });
+				        		    markers.push(marker);
+				
+					        	}
 				        	}
 			        });
 		});
+		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+		for (var i = 0; i < markers.length; i++)
+				markers[i].setMap(null);
+		markers = [];
+		}
+		/*
 		  $(document).ready(function() {
 			   $.ajax({
 			        url : "all",
@@ -131,7 +160,7 @@
 			        	}
 			        });
 		  });  
-		  
+		 */
 	</script>
 </body>
 </html>

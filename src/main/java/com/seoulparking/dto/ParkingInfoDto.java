@@ -1,10 +1,12 @@
 package com.seoulparking.dto;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection="parking")  
+@Document(collection="parking_lot")  
 public class ParkingInfoDto {
 	
 	private String pname;
@@ -12,8 +14,8 @@ public class ParkingInfoDto {
 	private String addr2;
 	private String total;
 	private String avail;
-	private Object rate;
-	private Object time;
-	private Object location;
+	private List<String> rate;
+	private List<String> time;
+	private List<Double> location;
 }
 
